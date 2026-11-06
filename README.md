@@ -38,8 +38,8 @@ A full-stack, real-time Kanban application built with React, Node.js, and TypeSc
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/Pro-Ace-grammer/wafer_tech_assessment.git
+cd wafer_tech_assessment
 ```
 
 ### 2. Environment Configuration
