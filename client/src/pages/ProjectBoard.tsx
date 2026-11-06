@@ -50,6 +50,7 @@ export default function ProjectBoard() {
     const [editName, setEditName] = useState('');
     const [editStatus, setEditStatus] = useState<'PENDING' | 'IN_PROGRESS' | 'COMPLETED'>('PENDING');
     const [editAssigneeId, setEditAssigneeId] = useState('');
+    const [editAssigneeEmail, setEditAssigneeEmail] = useState('');
     const [editPriority, setEditPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH'>('MEDIUM');
     const [editDueDate, setEditDueDate] = useState('');
     const [isUpdating, setIsUpdating] = useState(false);
@@ -219,6 +220,16 @@ export default function ProjectBoard() {
         setEditName(task.name);
         setEditStatus(task.status);
         setEditAssigneeId(task.assigneeId || '');
+
+        if (task.assigneeId) {
+            const member = teamMembers.find(m =>
+                (m.user?.id === task.assigneeId) || (m.id === task.assigneeId) || (m.userId === task.assigneeId)
+            );
+            setEditAssigneeEmail(member?.user?.email || member?.email || '');
+        } else {
+            setEditAssigneeEmail('');
+        }
+
         setEditPriority((task.priority as 'LOW' | 'MEDIUM' | 'HIGH') || 'MEDIUM');
         setEditDueDate(task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '');
     };
@@ -226,6 +237,27 @@ export default function ProjectBoard() {
     const handleUpdateTask = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!editingTask || !project) return;
+
+        let finalAssigneeId: string | null = null;
+        if (user?.role === 'ADMIN') {
+            const trimmedEmail = editAssigneeEmail.trim();
+            if (trimmedEmail) {
+                const matchedMember = teamMembers.find(m => {
+                    const memberEmail = m.user?.email || m.email;
+                    return memberEmail && memberEmail.toLowerCase() === trimmedEmail.toLowerCase();
+                });
+
+                if (!matchedMember) {
+                    toast.error('User is not a member of this project');
+                    return;
+                }
+
+                finalAssigneeId = matchedMember.user?.id || matchedMember.id || matchedMember.userId || null;
+            } else {
+                finalAssigneeId = null;
+            }
+        }
+
         setIsUpdating(true);
 
         try {
@@ -237,7 +269,7 @@ export default function ProjectBoard() {
                 dueDate: editDueDate || null,
             };
             if (user?.role === 'ADMIN') {
-                payload.assigneeId = editAssigneeId || null;
+                payload.assigneeId = finalAssigneeId;
             }
 
             const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}/tasks/${editingTask.id}`,
@@ -1253,22 +1285,13 @@ export default function ProjectBoard() {
                                     <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-1.5">
                                         Assign To
                                     </label>
-                                    <select
-                                        className="w-full px-4 py-2.5 bg-white text-gray-900 border border-gray-300 rounded-lg text-sm shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200 cursor-pointer"
-                                        value={editAssigneeId}
-                                        onChange={(e) => setEditAssigneeId(e.target.value)}
-                                    >
-                                        <option value="">Unassigned</option>
-                                        {teamMembers.map((member) => {
-                                            const id = member.user?.id || member.id || member.userId;
-                                            const email = member.user?.email || member.email;
-                                            return (
-                                                <option key={id} value={id}>
-                                                    {email}
-                                                </option>
-                                            );
-                                        })}
-                                    </select>
+                                    <input
+                                        type="email"
+                                        placeholder="user@company.com"
+                                        className="w-full px-4 py-2.5 bg-white text-gray-900 placeholder:text-gray-400 border border-gray-300 rounded-lg text-sm shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200"
+                                        value={editAssigneeEmail}
+                                        onChange={(e) => setEditAssigneeEmail(e.target.value)}
+                                    />
                                 </div>
                             )}
 
