@@ -26,7 +26,7 @@ export default function Dashboard() {
     const fetchProjects = async () => {
       try {
         // We attach the token to the Authorization header, exactly like we did in Postman
-        const response = await axios.get('http://localhost:5000/api/projects', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

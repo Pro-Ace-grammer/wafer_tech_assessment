@@ -18,7 +18,7 @@ export default function Register() {
 
         try {
             // Send the selected role to the backend along with email and password
-            await axios.post('http://localhost:5000/api/auth/register', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
                 email,
                 password,
                 role

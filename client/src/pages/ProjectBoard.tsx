@@ -66,13 +66,13 @@ export default function ProjectBoard() {
         const fetchProjectDetails = async () => {
             try {
                 // 1. Fetch the project and tasks
-                const projResponse = await axios.get(`http://localhost:5000/api/projects/${projectId}`, {
+                const projResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setProject(projResponse.data.project);
 
                 // 2. Fetch the team members for this project
-                const membersResponse = await axios.get(`http://localhost:5000/api/projects/${projectId}/members`, {
+                const membersResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}/members`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 // Depending on your Prisma setup, the array might be called 'members' or just the raw array
@@ -93,7 +93,7 @@ export default function ProjectBoard() {
     useEffect(() => {
         if (!projectId) return;
 
-        const socket = io('http://localhost:5000');
+        const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
         socket.emit('joinProject', projectId);
 
         // 3. Listen for a new task being created
@@ -162,7 +162,7 @@ export default function ProjectBoard() {
 
         try {
             // POST to our backend endpoint
-            const response = await axios.post(`http://localhost:5000/api/projects/${projectId}/tasks`,
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}/tasks`,
                 {
                     name: newTaskName,
                     status: 'PENDING',
@@ -198,7 +198,7 @@ export default function ProjectBoard() {
         if (!window.confirm("Are you sure you want to delete this task?")) return;
 
         try {
-            await axios.delete(`http://localhost:5000/api/projects/${projectId}/tasks/${taskId}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}/tasks/${taskId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -240,7 +240,7 @@ export default function ProjectBoard() {
                 payload.assigneeId = editAssigneeId || null;
             }
 
-            const response = await axios.patch(`http://localhost:5000/api/projects/${projectId}/tasks/${editingTask.id}`,
+            const response = await axios.patch(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}/tasks/${editingTask.id}`,
                 payload,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -265,7 +265,7 @@ export default function ProjectBoard() {
         if (!inviteEmail.trim()) return;
 
         try {
-            await axios.post(`http://localhost:5000/api/projects/${projectId}/members`,
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/projects/${projectId}/members`,
                 { email: inviteEmail },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -321,7 +321,7 @@ export default function ProjectBoard() {
         // 6. Hit the Backend API to permanently save the new position
         try {
             const response = await axios.patch(
-                `http://localhost:5000/api/projects/${projectId}/tasks/${draggableId}/reorder`,
+                `${import.meta.env.VITE_API_URL}/api/projects/${projectId}/tasks/${draggableId}/reorder`,
                 {
                     status: destination.droppableId,
                     prevOrder,
