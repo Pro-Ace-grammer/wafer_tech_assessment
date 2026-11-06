@@ -635,11 +635,10 @@ export default function ProjectBoard() {
                                     <button
                                         type="button"
                                         onClick={() => setTaskView('BOARD')}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 ${
-                                            taskView === 'BOARD'
-                                                ? 'bg-white text-gray-900 shadow-sm'
-                                                : 'text-gray-500 hover:text-gray-900'
-                                        }`}
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 ${taskView === 'BOARD'
+                                            ? 'bg-white text-gray-900 shadow-sm'
+                                            : 'text-gray-500 hover:text-gray-900'
+                                            }`}
                                     >
                                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -649,11 +648,10 @@ export default function ProjectBoard() {
                                     <button
                                         type="button"
                                         onClick={() => setTaskView('LIST')}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 ${
-                                            taskView === 'LIST'
-                                                ? 'bg-white text-gray-900 shadow-sm'
-                                                : 'text-gray-500 hover:text-gray-900'
-                                        }`}
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-200 ${taskView === 'LIST'
+                                            ? 'bg-white text-gray-900 shadow-sm'
+                                            : 'text-gray-500 hover:text-gray-900'
+                                            }`}
                                     >
                                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -695,117 +693,272 @@ export default function ProjectBoard() {
                 {activeView === 'BOARD' && (
                     taskView === 'BOARD' ? (
                         <main className="flex-1 overflow-x-auto p-6 sm:p-8">
-                        <DragDropContext onDragEnd={onDragEnd}>
-                            <div className="flex gap-6 h-full items-start">
-                                {/* We map over an array of our columns to keep the code clean */}
-                                {[
-                                    { id: 'PENDING', title: 'Pending', tasks: pendingTasks, dot: 'bg-gray-400', color: 'bg-gray-200/70 text-gray-700 border-gray-300/60' },
-                                    { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, dot: 'bg-blue-500', color: 'bg-blue-50 text-blue-700 border-blue-200' },
-                                    { id: 'COMPLETED', title: 'Completed', tasks: completedTasks, dot: 'bg-emerald-500', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' }
-                                ].map(column => (
-                                    <div
-                                        key={column.id}
-                                        className="bg-gray-100/70 border border-gray-200/80 rounded-2xl w-80 sm:w-84 flex-shrink-0 flex flex-col max-h-[calc(100vh-140px)] shadow-xs transition-colors"
-                                    >
-                                        {/* Column Header */}
-                                        <div className="p-3.5 border-b border-gray-200/70 flex justify-between items-center bg-gray-100/50 rounded-t-2xl">
-                                            <div className="flex items-center gap-2">
-                                                <span className={`w-2 h-2 rounded-full ${column.dot}`} />
-                                                <h2 className="font-semibold text-sm text-gray-800 tracking-tight">{column.title}</h2>
+                            <DragDropContext onDragEnd={onDragEnd}>
+                                <div className="flex gap-6 h-full items-start">
+                                    {/* We map over an array of our columns to keep the code clean */}
+                                    {[
+                                        { id: 'PENDING', title: 'Pending', tasks: pendingTasks, dot: 'bg-gray-400', color: 'bg-gray-200/70 text-gray-700 border-gray-300/60' },
+                                        { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, dot: 'bg-blue-500', color: 'bg-blue-50 text-blue-700 border-blue-200' },
+                                        { id: 'COMPLETED', title: 'Completed', tasks: completedTasks, dot: 'bg-emerald-500', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' }
+                                    ].map(column => (
+                                        <div
+                                            key={column.id}
+                                            className="bg-gray-100/70 border border-gray-200/80 rounded-2xl w-80 sm:w-84 flex-shrink-0 flex flex-col max-h-[calc(100vh-140px)] shadow-xs transition-colors"
+                                        >
+                                            {/* Column Header */}
+                                            <div className="p-3.5 border-b border-gray-200/70 flex justify-between items-center bg-gray-100/50 rounded-t-2xl">
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`w-2 h-2 rounded-full ${column.dot}`} />
+                                                    <h2 className="font-semibold text-sm text-gray-800 tracking-tight">{column.title}</h2>
+                                                </div>
+                                                <span className={`${column.color} text-xs font-semibold px-2 py-0.5 rounded-full border`}>
+                                                    {column.tasks.length}
+                                                </span>
                                             </div>
-                                            <span className={`${column.color} text-xs font-semibold px-2 py-0.5 rounded-full border`}>
-                                                {column.tasks.length}
-                                            </span>
-                                        </div>
 
-                                        {/* Droppable Zone */}
-                                        <Droppable droppableId={column.id}>
-                                            {(provided, snapshot) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.droppableProps}
-                                                    className={`p-3 flex-1 overflow-y-auto space-y-3 min-h-[160px] transition-colors rounded-b-2xl ${snapshot.isDraggingOver ? 'bg-blue-50/40' : ''
-                                                        }`}
-                                                >
-                                                    {column.tasks.map((task, index) => (
-                                                        /* Draggable Card */
-                                                        <Draggable key={task.id} draggableId={task.id} index={index}>
-                                                            {(provided, snapshot) => (
-                                                                <div
-                                                                    ref={provided.innerRef}
-                                                                    {...provided.draggableProps}
-                                                                    {...provided.dragHandleProps}
-                                                                    onClick={() => openEditModal(task)}
-                                                                    className={`bg-white p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 group relative cursor-grab active:cursor-grabbing ${snapshot.isDragging
-                                                                        ? 'shadow-2xl ring-2 ring-blue-600 border-transparent rotate-1 scale-[1.02]'
-                                                                        : 'shadow-xs'
-                                                                        }`}
-                                                                    style={{ ...provided.draggableProps.style }}
-                                                                >
-                                                                    {/* Priority Pill at Top-Left & Due Date with Calendar Icon */}
-                                                                    {(task.priority || task.dueDate) && (
-                                                                        <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-                                                                            {task.priority && (
-                                                                                <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${task.priority.toUpperCase() === 'HIGH'
-                                                                                    ? 'bg-red-50 text-red-700 border border-red-200'
-                                                                                    : task.priority.toUpperCase() === 'MEDIUM'
-                                                                                        ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                                                                                        : 'bg-blue-50 text-blue-700 border border-blue-200'
-                                                                                    }`}>
-                                                                                    {task.priority}
-                                                                                </span>
-                                                                            )}
-                                                                            {task.dueDate && (
-                                                                                <span className="inline-flex items-center gap-1 text-[11px] text-gray-500 bg-gray-50 border border-gray-200/60 px-1.5 py-0.5 rounded">
-                                                                                    <svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                                                    </svg>
-                                                                                    <span>{new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
-                                                                                </span>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-
-                                                                    {/* Task Title */}
-                                                                    <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors pr-6 leading-snug">
-                                                                        {task.name}
-                                                                    </p>
-
-                                                                    {/* Card Bottom: Assignee Avatar + Created Date pushed to bottom right */}
-                                                                    <div className="flex items-center justify-between mt-3.5 pt-3 border-t border-gray-100">
-                                                                        <div className="flex items-center gap-2 min-w-0">
-                                                                            {task.assigneeId ? (
-                                                                                <>
-                                                                                    <div
-                                                                                        className="w-6 h-6 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-white shadow-xs shrink-0"
-                                                                                        title={getAssigneeEmail(task.assigneeId) || undefined}
-                                                                                    >
-                                                                                        {getAssigneeEmail(task.assigneeId)?.charAt(0).toUpperCase()}
-                                                                                    </div>
-                                                                                    <span
-                                                                                        className="text-xs text-gray-600 truncate max-w-[110px]"
-                                                                                        title={getAssigneeEmail(task.assigneeId) || undefined}
-                                                                                    >
-                                                                                        {getAssigneeEmail(task.assigneeId)}
+                                            {/* Droppable Zone */}
+                                            <Droppable droppableId={column.id}>
+                                                {(provided, snapshot) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.droppableProps}
+                                                        className={`p-3 flex-1 overflow-y-auto space-y-3 min-h-[160px] transition-colors rounded-b-2xl ${snapshot.isDraggingOver ? 'bg-blue-50/40' : ''
+                                                            }`}
+                                                    >
+                                                        {column.tasks.map((task, index) => (
+                                                            /* Draggable Card */
+                                                            <Draggable key={task.id} draggableId={task.id} index={index}>
+                                                                {(provided, snapshot) => (
+                                                                    <div
+                                                                        ref={provided.innerRef}
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        onClick={() => openEditModal(task)}
+                                                                        className={`bg-white p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200 group relative cursor-grab active:cursor-grabbing ${snapshot.isDragging
+                                                                            ? 'shadow-2xl ring-2 ring-blue-600 border-transparent rotate-1 scale-[1.02]'
+                                                                            : 'shadow-xs'
+                                                                            }`}
+                                                                        style={{ ...provided.draggableProps.style }}
+                                                                    >
+                                                                        {/* Priority Pill at Top-Left & Due Date with Calendar Icon */}
+                                                                        {(task.priority || task.dueDate) && (
+                                                                            <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
+                                                                                {task.priority && (
+                                                                                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider ${task.priority.toUpperCase() === 'HIGH'
+                                                                                        ? 'bg-red-50 text-red-700 border border-red-200'
+                                                                                        : task.priority.toUpperCase() === 'MEDIUM'
+                                                                                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                                                                            : 'bg-blue-50 text-blue-700 border border-blue-200'
+                                                                                        }`}>
+                                                                                        {task.priority}
                                                                                     </span>
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    <div className="w-6 h-6 rounded-full bg-gray-100 border border-dashed border-gray-300 text-gray-400 flex items-center justify-center text-[10px] font-semibold shrink-0">
-                                                                                        ?
-                                                                                    </div>
-                                                                                    <span className="text-xs text-gray-400">Unassigned</span>
-                                                                                </>
-                                                                            )}
+                                                                                )}
+                                                                                {task.dueDate && (
+                                                                                    <span className="inline-flex items-center gap-1 text-[11px] text-gray-500 bg-gray-50 border border-gray-200/60 px-1.5 py-0.5 rounded">
+                                                                                        <svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                                                        </svg>
+                                                                                        <span>{new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                                                                                    </span>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+
+                                                                        {/* Task Title */}
+                                                                        <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors pr-6 leading-snug">
+                                                                            {task.name}
+                                                                        </p>
+
+                                                                        {/* Card Bottom: Assignee Avatar + Created Date pushed to bottom right */}
+                                                                        <div className="flex items-center justify-between mt-3.5 pt-3 border-t border-gray-100">
+                                                                            <div className="flex items-center gap-2 min-w-0">
+                                                                                {task.assigneeId ? (
+                                                                                    <>
+                                                                                        <div
+                                                                                            className="w-6 h-6 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-white shadow-xs shrink-0"
+                                                                                            title={getAssigneeEmail(task.assigneeId) || undefined}
+                                                                                        >
+                                                                                            {getAssigneeEmail(task.assigneeId)?.charAt(0).toUpperCase()}
+                                                                                        </div>
+                                                                                        <span
+                                                                                            className="text-xs text-gray-600 truncate max-w-[110px]"
+                                                                                            title={getAssigneeEmail(task.assigneeId) || undefined}
+                                                                                        >
+                                                                                            {getAssigneeEmail(task.assigneeId)}
+                                                                                        </span>
+                                                                                    </>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        <div className="w-6 h-6 rounded-full bg-gray-100 border border-dashed border-gray-300 text-gray-400 flex items-center justify-center text-[10px] font-semibold shrink-0">
+                                                                                            ?
+                                                                                        </div>
+                                                                                        <span className="text-xs text-gray-400">Unassigned</span>
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+
+                                                                            {/* Created Date pushed to bottom right */}
+                                                                            <span className="text-xs text-gray-400 ml-auto shrink-0 font-normal">
+                                                                                {new Date(task.createdAt).toLocaleDateString()}
+                                                                            </span>
                                                                         </div>
 
-                                                                        {/* Created Date pushed to bottom right */}
-                                                                        <span className="text-xs text-gray-400 ml-auto shrink-0 font-normal">
-                                                                            {new Date(task.createdAt).toLocaleDateString()}
-                                                                        </span>
+                                                                        {/* Delete Button */}
+                                                                        {user?.role === 'ADMIN' && (
+                                                                            <button
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleDeleteTask(task.id);
+                                                                                }}
+                                                                                title="Delete task"
+                                                                                className="absolute top-3 right-3 p-1 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all duration-150"
+                                                                            >
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                                                                    <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                                                                                </svg>
+                                                                            </button>
+                                                                        )}
                                                                     </div>
+                                                                )}
+                                                            </Draggable>
+                                                        ))}
+                                                        {provided.placeholder}
+                                                    </div>
+                                                )}
+                                            </Droppable>
+                                        </div>
+                                    ))}
+                                </div>
+                            </DragDropContext>
+                        </main>
+                    ) : (
+                        /* 1b. TASKS LIST VIEW */
+                        <main className="flex-1 overflow-y-auto p-6 sm:p-8 lg:p-10 max-w-6xl w-full mx-auto">
+                            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                                {searchedTasks.length === 0 ? (
+                                    <div className="p-12 text-center">
+                                        <div className="w-12 h-12 rounded-xl bg-gray-100 text-gray-400 mx-auto flex items-center justify-center mb-3">
+                                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                            </svg>
+                                        </div>
+                                        <h3 className="text-base font-semibold text-gray-900">No tasks found</h3>
+                                        <p className="text-sm text-gray-500 mt-1 max-w-sm mx-auto">
+                                            {searchQuery ? `No tasks matched "${searchQuery}".` : "Get started by adding a new task to this project."}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left border-collapse">
+                                            <thead>
+                                                <tr className="bg-gray-50/80 border-b border-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                                    <th className="py-3.5 px-6">Task Name</th>
+                                                    <th className="py-3.5 px-6">Status</th>
+                                                    <th className="py-3.5 px-6">Priority</th>
+                                                    <th className="py-3.5 px-6">Due Date</th>
+                                                    <th className="py-3.5 px-6">Assignee</th>
+                                                    <th className="py-3.5 px-6">Created</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-100 text-sm">
+                                                {searchedTasks.map(task => {
+                                                    const assigneeEmail = getAssigneeEmail(task.assigneeId);
+                                                    return (
+                                                        <tr
+                                                            key={task.id}
+                                                            onClick={() => openEditModal(task)}
+                                                            className="hover:bg-gray-50/80 cursor-pointer transition-colors group"
+                                                        >
+                                                            {/* Task Name */}
+                                                            <td className="py-4 px-6">
+                                                                <span className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                                                    {task.name}
+                                                                </span>
+                                                            </td>
 
-                                                                    {/* Delete Button */}
+                                                            {/* Status */}
+                                                            <td className="py-4 px-6 whitespace-nowrap">
+                                                                {task.status === 'COMPLETED' ? (
+                                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                                                        Completed
+                                                                    </span>
+                                                                ) : task.status === 'IN_PROGRESS' ? (
+                                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                                                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                                                                        In Progress
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200">
+                                                                        <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
+                                                                        Pending
+                                                                    </span>
+                                                                )}
+                                                            </td>
+
+                                                            {/* Priority */}
+                                                            <td className="py-4 px-6 whitespace-nowrap">
+                                                                {task.priority ? (
+                                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider ${task.priority.toUpperCase() === 'HIGH'
+                                                                        ? 'bg-red-50 text-red-700 border border-red-200'
+                                                                        : task.priority.toUpperCase() === 'MEDIUM'
+                                                                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                                                            : 'bg-blue-50 text-blue-700 border border-blue-200'
+                                                                        }`}>
+                                                                        {task.priority}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-xs text-gray-400">—</span>
+                                                                )}
+                                                            </td>
+
+                                                            {/* Due Date */}
+                                                            <td className="py-4 px-6 whitespace-nowrap">
+                                                                {task.dueDate ? (
+                                                                    <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-gray-50 border border-gray-200/60 px-2.5 py-1 rounded-md">
+                                                                        <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                                        </svg>
+                                                                        <span>{new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-xs text-gray-400">—</span>
+                                                                )}
+                                                            </td>
+
+                                                            {/* Assignee */}
+                                                            <td className="py-4 px-6">
+                                                                <div className="flex items-center gap-2.5 min-w-0">
+                                                                    {assigneeEmail ? (
+                                                                        <>
+                                                                            <div
+                                                                                className="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase ring-2 ring-white shadow-xs shrink-0"
+                                                                                title={assigneeEmail}
+                                                                            >
+                                                                                {assigneeEmail.charAt(0).toUpperCase()}
+                                                                            </div>
+                                                                            <span
+                                                                                className="text-sm text-gray-700 truncate max-w-[180px]"
+                                                                                title={assigneeEmail}
+                                                                            >
+                                                                                {assigneeEmail}
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="w-7 h-7 rounded-full bg-gray-100 border border-dashed border-gray-300 text-gray-400 flex items-center justify-center text-xs font-semibold shrink-0">
+                                                                                ?
+                                                                            </div>
+                                                                            <span className="text-sm text-gray-400 italic">Unassigned</span>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+
+                                                            {/* Created */}
+                                                            <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
+                                                                <div className="flex items-center justify-between">
+                                                                    <span>{new Date(task.createdAt).toLocaleDateString()}</span>
                                                                     {user?.role === 'ADMIN' && (
                                                                         <button
                                                                             onClick={(e) => {
@@ -813,7 +966,7 @@ export default function ProjectBoard() {
                                                                                 handleDeleteTask(task.id);
                                                                             }}
                                                                             title="Delete task"
-                                                                            className="absolute top-3 right-3 p-1 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all duration-150"
+                                                                            className="p-1.5 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all duration-150"
                                                                         >
                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                                                                 <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
@@ -821,173 +974,17 @@ export default function ProjectBoard() {
                                                                         </button>
                                                                     )}
                                                                 </div>
-                                                            )}
-                                                        </Draggable>
-                                                    ))}
-                                                    {provided.placeholder}
-                                                </div>
-                                            )}
-                                        </Droppable>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                ))}
+                                )}
                             </div>
-                        </DragDropContext>
-                    </main>
-                ) : (
-                    /* 1b. TASKS LIST VIEW */
-                    <main className="flex-1 overflow-y-auto p-6 sm:p-8 lg:p-10 max-w-6xl w-full mx-auto">
-                        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                            {searchedTasks.length === 0 ? (
-                                <div className="p-12 text-center">
-                                    <div className="w-12 h-12 rounded-xl bg-gray-100 text-gray-400 mx-auto flex items-center justify-center mb-3">
-                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                                        </svg>
-                                    </div>
-                                    <h3 className="text-base font-semibold text-gray-900">No tasks found</h3>
-                                    <p className="text-sm text-gray-500 mt-1 max-w-sm mx-auto">
-                                        {searchQuery ? `No tasks matched "${searchQuery}".` : "Get started by adding a new task to this project."}
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-left border-collapse">
-                                        <thead>
-                                            <tr className="bg-gray-50/80 border-b border-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                                                <th className="py-3.5 px-6">Task Name</th>
-                                                <th className="py-3.5 px-6">Status</th>
-                                                <th className="py-3.5 px-6">Priority</th>
-                                                <th className="py-3.5 px-6">Due Date</th>
-                                                <th className="py-3.5 px-6">Assignee</th>
-                                                <th className="py-3.5 px-6">Created</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-gray-100 text-sm">
-                                            {searchedTasks.map(task => {
-                                                const assigneeEmail = getAssigneeEmail(task.assigneeId);
-                                                return (
-                                                    <tr
-                                                        key={task.id}
-                                                        onClick={() => openEditModal(task)}
-                                                        className="hover:bg-gray-50/80 cursor-pointer transition-colors group"
-                                                    >
-                                                        {/* Task Name */}
-                                                        <td className="py-4 px-6">
-                                                            <span className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                                                                {task.name}
-                                                            </span>
-                                                        </td>
-
-                                                        {/* Status */}
-                                                        <td className="py-4 px-6 whitespace-nowrap">
-                                                            {task.status === 'COMPLETED' ? (
-                                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                                                    Completed
-                                                                </span>
-                                                            ) : task.status === 'IN_PROGRESS' ? (
-                                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                                                                    In Progress
-                                                                </span>
-                                                            ) : (
-                                                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-200">
-                                                                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400" />
-                                                                    Pending
-                                                                </span>
-                                                            )}
-                                                        </td>
-
-                                                        {/* Priority */}
-                                                        <td className="py-4 px-6 whitespace-nowrap">
-                                                            {task.priority ? (
-                                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider ${
-                                                                    task.priority.toUpperCase() === 'HIGH'
-                                                                        ? 'bg-red-50 text-red-700 border border-red-200'
-                                                                        : task.priority.toUpperCase() === 'MEDIUM'
-                                                                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                                                                            : 'bg-blue-50 text-blue-700 border border-blue-200'
-                                                                }`}>
-                                                                    {task.priority}
-                                                                </span>
-                                                            ) : (
-                                                                <span className="text-xs text-gray-400">—</span>
-                                                            )}
-                                                        </td>
-
-                                                        {/* Due Date */}
-                                                        <td className="py-4 px-6 whitespace-nowrap">
-                                                            {task.dueDate ? (
-                                                                <span className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-gray-50 border border-gray-200/60 px-2.5 py-1 rounded-md">
-                                                                    <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                                    </svg>
-                                                                    <span>{new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                                                                </span>
-                                                            ) : (
-                                                                <span className="text-xs text-gray-400">—</span>
-                                                            )}
-                                                        </td>
-
-                                                        {/* Assignee */}
-                                                        <td className="py-4 px-6">
-                                                            <div className="flex items-center gap-2.5 min-w-0">
-                                                                {assigneeEmail ? (
-                                                                    <>
-                                                                        <div
-                                                                            className="w-7 h-7 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase ring-2 ring-white shadow-xs shrink-0"
-                                                                            title={assigneeEmail}
-                                                                        >
-                                                                            {assigneeEmail.charAt(0).toUpperCase()}
-                                                                        </div>
-                                                                        <span
-                                                                            className="text-sm text-gray-700 truncate max-w-[180px]"
-                                                                            title={assigneeEmail}
-                                                                        >
-                                                                            {assigneeEmail}
-                                                                        </span>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <div className="w-7 h-7 rounded-full bg-gray-100 border border-dashed border-gray-300 text-gray-400 flex items-center justify-center text-xs font-semibold shrink-0">
-                                                                            ?
-                                                                        </div>
-                                                                        <span className="text-sm text-gray-400 italic">Unassigned</span>
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                        </td>
-
-                                                        {/* Created */}
-                                                        <td className="py-4 px-6 text-sm text-gray-500 whitespace-nowrap">
-                                                            <div className="flex items-center justify-between">
-                                                                <span>{new Date(task.createdAt).toLocaleDateString()}</span>
-                                                                {user?.role === 'ADMIN' && (
-                                                                    <button
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation();
-                                                                            handleDeleteTask(task.id);
-                                                                        }}
-                                                                        title="Delete task"
-                                                                        className="p-1.5 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all duration-150"
-                                                                    >
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                                            <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                                                        </svg>
-                                                                    </button>
-                                                                )}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
-                        </div>
-                    </main>
-                ))}
+                        </main>
+                    ))}
 
                 {/* 2. MEMBERS VIEW */}
                 {activeView === 'MEMBERS' && (
