@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -14,7 +14,7 @@ interface Project {
 export default function Dashboard() {
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
-  
+
   // State variables to hold our data and UI status
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ export default function Dashboard() {
             Authorization: `Bearer ${token}`
           }
         });
-        
+
         // Save the fetched projects into our state variable
         setProjects(response.data.projects);
       } catch (err) {
@@ -64,7 +64,7 @@ export default function Dashboard() {
             </div>
           </div>
           {/* Mobile Close Button */}
-          <button 
+          <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
           >
@@ -119,11 +119,10 @@ export default function Dashboard() {
               <p className="text-xs font-medium text-white truncate max-w-[130px]">
                 {user?.email}
               </p>
-              <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.2 rounded mt-0.5 tracking-wider uppercase ${
-                user?.role === 'ADMIN'
+              <span className={`inline-block text-[10px] font-semibold px-1.5 py-0.2 rounded mt-0.5 tracking-wider uppercase ${user?.role === 'ADMIN'
                   ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                   : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-              }`}>
+                }`}>
                 {user?.role}
               </span>
             </div>
@@ -155,9 +154,8 @@ export default function Dashboard() {
 
       {/* Mobile Drawer Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-gray-950 border-r border-gray-800/80 transform transition-transform duration-300 ease-in-out lg:hidden ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-gray-950 border-r border-gray-800/80 transform transition-transform duration-300 ease-in-out lg:hidden ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         {sidebarContent}
       </aside>
@@ -259,8 +257,8 @@ export default function Dashboard() {
                 </div>
               ) : (
                 projects.map((project) => (
-                  <div 
-                    key={project.id} 
+                  <div
+                    key={project.id}
                     onClick={() => navigate(`/projects/${project.id}`)}
                     className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer group flex flex-col justify-between"
                   >
