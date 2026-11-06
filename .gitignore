@@ -6,3 +6,8 @@ client/.env
 server/.env
 personal_notes/
 notes.txt
+server/dist/
+client/dist/
+server/.agents/
+server/.claude/
+server/.windsurf/
