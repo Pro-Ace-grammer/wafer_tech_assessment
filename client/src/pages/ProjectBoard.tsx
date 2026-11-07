@@ -49,7 +49,6 @@ export default function ProjectBoard() {
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [editName, setEditName] = useState('');
     const [editStatus, setEditStatus] = useState<'PENDING' | 'IN_PROGRESS' | 'COMPLETED'>('PENDING');
-    const [editAssigneeId, setEditAssigneeId] = useState('');
     const [editAssigneeEmail, setEditAssigneeEmail] = useState('');
     const [editPriority, setEditPriority] = useState<'LOW' | 'MEDIUM' | 'HIGH'>('MEDIUM');
     const [editDueDate, setEditDueDate] = useState('');
@@ -219,7 +218,6 @@ export default function ProjectBoard() {
         setEditingTask(task);
         setEditName(task.name);
         setEditStatus(task.status);
-        setEditAssigneeId(task.assigneeId || '');
 
         if (task.assigneeId) {
             const member = teamMembers.find(m =>
