@@ -20,6 +20,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newProjectName, setNewProjectName] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
 
   // useEffect runs automatically as soon as the Dashboard loads on the screen
   useEffect(() => {
@@ -44,6 +47,35 @@ export default function Dashboard() {
 
     fetchProjects();
   }, [token]); // The [token] array means "only run this if we actually have a token"
+
+  const handleCreateProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newProjectName.trim()) return;
+    setIsCreating(true);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/projects`,
+        { name: newProjectName.trim() },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.data.project) {
+        setProjects(prev => [...prev, response.data.project]);
+      }
+
+      setIsModalOpen(false);
+      setNewProjectName('');
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to create project.');
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   // Shared Sidebar Content
   const sidebarContent = (
@@ -208,9 +240,12 @@ export default function Dashboard() {
               </p>
             </div>
 
-            {/* We will wire this button up in the next step! Primary CTA for Admins */}
+            {/* Primary CTA for Admins */}
             {user?.role === 'ADMIN' && (
-              <button className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
+              >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
@@ -296,6 +331,62 @@ export default function Dashboard() {
           )}
         </main>
       </div>
+
+      {/* Create New Project Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 w-full max-w-md shadow-2xl border border-gray-100 max-h-[90vh] overflow-y-auto my-auto relative animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-4 mb-6 border-b border-gray-100">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Create New Workspace</h2>
+                <p className="text-xs text-gray-500 mt-1">Add a new project workspace to collaborate on tasks.</p>
+              </div>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-gray-400 hover:text-gray-700 hover:bg-gray-100 p-2 rounded-xl transition-all duration-200"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateProject} className="space-y-6">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 mb-2">
+                  Project Name
+                </label>
+                <input
+                  type="text"
+                  autoFocus
+                  required
+                  placeholder="e.g., Marketing Campaign, Mobile App"
+                  className="w-full px-4 py-2.5 bg-white text-gray-900 placeholder:text-gray-400 border border-gray-300 rounded-lg text-sm shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-200"
+                  value={newProjectName}
+                  onChange={(e) => setNewProjectName(e.target.value)}
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isCreating || !newProjectName.trim()}
+                  className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-lg text-sm font-semibold shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isCreating ? 'Creating...' : 'Create Project'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
